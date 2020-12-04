@@ -30,3 +30,10 @@
     mode: 0644
   become: false
   with_items: "{{ dotfiles_files }}"
+
+- name: Source zshrc from dotfiles.
+  lineinfile:
+    path: "{{ dotfiles_home }}/.zshrc"
+    regexp: 'source {{ dotfiles_repo_local_destination }}/.zshrc'
+    line: "[ -f {{ dotfiles_repo_local_destination }}/.zshrc ] && source {{ dotfiles_repo_local_destination }}/.zshrc"
+    when: dotfiles_link_zshrc | bool
